@@ -7,6 +7,7 @@ const {
   deleteTransaction,
   deleteAllTransactions,
   addTagToTransaction,
+  setTransactionsCategory,
 } = require("../controllers/transactions");
 const {
   transactionSchema,
@@ -25,5 +26,6 @@ transactionsRouter.post(
 );
 transactionsRouter.delete("/all", deleteAllTransactions);
 transactionsRouter.delete("/:id", deleteTransaction);
+transactionsRouter.put("/bulk-category", setTransactionsCategory);
 
 module.exports = transactionsRouter;

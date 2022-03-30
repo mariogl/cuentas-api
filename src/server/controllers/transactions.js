@@ -22,13 +22,13 @@ const getTransactions = async (req, res) => {
 
     const positiveTransactionsSum = transactions.reduce(
       (total, transaction) =>
-        total + (transaction.quantity < 0 ? transaction.quantity : 0),
+        total + (transaction.quantity > 0 ? transaction.quantity : 0),
       0
     );
 
     const negativeTransactionsSum = transactions.reduce(
       (total, transaction) =>
-        total + (transaction.quantity > 0 ? transaction.quantity : 0),
+        total + (transaction.quantity < 0 ? transaction.quantity : 0),
       0
     );
 
@@ -109,6 +109,21 @@ const addTagToTransaction = async (req, res, next) => {
   }
 };
 
+const setTransactionsCategory = async (req, res, next) => {
+  const { ids: transactionsIds, category: categoryId } = req.body;
+
+  try {
+    await Transaction.updateMany(
+      { _id: transactionsIds },
+      { category: categoryId !== "0" ? null : categoryId }
+    );
+    res.json({});
+  } catch (error) {
+    debug(chalk.red(error.message));
+    next(error);
+  }
+};
+
 module.exports = {
   getTransactions,
   createTransaction,
@@ -116,4 +131,5 @@ module.exports = {
   deleteTransaction,
   deleteAllTransactions,
   addTagToTransaction,
+  setTransactionsCategory,
 };

@@ -5,7 +5,7 @@ const categorySchema = {
   body: Joi.object({
     id: Joi.objectId(),
     name: Joi.string().required(),
-    icon: Joi.string(),
+    icon: Joi.string().allow(""),
   }),
 };
 
